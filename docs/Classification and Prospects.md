@@ -21,9 +21,16 @@ This document contains the research into classifying the landscape of node.js pr
 ## Prospects
 |Library|Desc|Test Framework|Comment|
 |---|---|---|---|
-|Minimist|Command line argument parser|Tape|Transformation type library|
-|Glob|File pattern finder|Tape|External type library|
-|Cheerio|XML/HTML parser|Mocha|Transformation type library|
-|Underscore|Utility function library|Qunit|Transformation type library, has tests for server and client side|
-|Async|Async control flow manager|Nodeunit/Mocha|Control flow type library, has tests for server and client side|
+|[Minimist](https://github.com/substack/minimist)|Command line argument parser|Tape|Transformation type library|
+|[Glob](https://github.com/isaacs/node-glob)|File pattern finder|Tape|External type library|
+|[Cheerio](https://github.com/cheeriojs/cheerio)|XML/HTML parser|Mocha|Transformation type library|
+|[Underscore](https://github.com/jashkenas/underscore)|Utility function library|Qunit|Transformation type library, has tests for server and client side|
+|[Async](https://github.com/caolan/async)|Async control flow manager|Nodeunit/Mocha|Control flow type library, has tests for server and client side|
+
+#### Test coverage
+* Minimist - Extensive, easy to understand
+* Glob - Extensive, slightly complex and requires file system mocking
+* Cheerio - Extensive, simple
+* Underscore - Quite Extensive albeit simple. Designed for client and server side
+* Async - Extensive, complex due to inherent async nature of functionality. Designed for client and server side 
 	
