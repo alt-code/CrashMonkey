@@ -7,9 +7,20 @@ const child_process = require("child_process");
 
 const REPOS_DIR = "repos";
 const REPOS_PATH = REPOS_DIR + "/";
+const PROGRAM_MODE = argv["mode"];
 
-if(!argv["url"] || !argv["test-engine"]) {
-	console.log("Usage: node CrashMonk.js [--config] --url=<repo URL> --test-engine=<test engine> [--test-dir=<test folder path>] [--num-commits=<filter commits num>]");
+if(!PROGRAM_MODE) {
+	console.log("Usage: node CrashMonk.js [--config] --mode=fetch/generate --url=<repo URL> --test-engine=<test engine> [--test-dir=<test folder path>] [--num-commits=<filter commits num>]");
+	process.exit(0);
+}
+
+if(PROGRAM_MODE === "fetch" & (!argv["url"] || !argv["test-engine"])) {
+	console.log("Usage: node CrashMonk.js [--config] --mode=fetch/generate --url=<repo URL> --test-engine=<test engine> [--test-dir=<test folder path>] [--num-commits=<filter commits num>]");
+	process.exit(0);
+}
+
+if(PROGRAM_MODE === "generate" & (!argv["url"] || !argv["test-engine"])) {
+	console.log("Usage: node CrashMonk.js [--config] --mode=fetch/generate --url=<repo URL> --test-engine=<test engine> [--test-dir=<test folder path>] [--num-commits=<filter commits num>]");
 	process.exit(0);
 }
 
@@ -35,9 +46,12 @@ function installDeps(repoName) {
 
 function main() {
 	console.log("");
-	cleanRepos();
-	var repoName = getRepo(argv["url"]);
-	installDeps(repoName);
+	
+	if(PROGRAM_MODE === "fetch") {
+		cleanRepos();
+		var repoName = getRepo(argv["url"]);
+		installDeps(repoName);
+	}
 }
 
 main();
