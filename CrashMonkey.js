@@ -2,6 +2,9 @@ const del = require("del");
 const Promise = require("promise");
 const fs = require("fs");
 
+const TestEngineParser = require("./lib/TestEngineParser.js");
+const Util = require("./lib/Util.js");
+
 const argv = require('minimist')(process.argv.slice(2));
 const child_process = require("child_process");
 
@@ -32,7 +35,7 @@ function cleanRepos() {
 
 function getRepo(repoURL) {
 	child_process.execSync('git clone ' + repoURL, {cwd: REPOS_DIR});
-	return /\/([^\/]+).git$/.exec(repoURL)[1];
+	return Util.repoNamefromURL(repoURL);
 }
 
 function installDeps(repoName) {
@@ -52,6 +55,14 @@ function main() {
 		var repoName = getRepo(argv["url"]);
 		installDeps(repoName);
 	}
+    if(PROGRAM_MODE === "generate") {
+        var repoName = Util.repoNamefromURL(argv["url"]);
+        process.env.PATH = process.env.PATH + ";" + __dirname + "\\repos\\" + repoName + "\\node_modules\\.bin";
+        var parser = new TestEngineParser("TAP", {
+            repoPath: REPOS_PATH + repoName
+        });
+        parser.runTestCases();
+    }
 }
 
 main();
