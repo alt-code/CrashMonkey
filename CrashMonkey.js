@@ -40,7 +40,7 @@ function installDeps(repoName) {
 	packageJSON = JSON.parse(packageJSON);
 	
 	console.log("Installing Dependencies");
-	var installRes = child_process.execSync("npm install", {cwd: REPOS_PATH + repoName});
+	var installRes = child_process.execSync("npm install --progress=false", {cwd: REPOS_PATH + repoName});
 	console.log("Done");
 }
 
