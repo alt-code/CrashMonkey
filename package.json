@@ -10,7 +10,8 @@
     "del": "^2.2.0",
     "lodash": "^4.1.0",
     "minimist": "^1.2.0",
-    "promise": "^7.1.1"
+    "promise": "^7.1.1",
+    "tap-parser": "^1.2.2"
   },
   "devDependencies": {},
   "scripts": {
