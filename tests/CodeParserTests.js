@@ -30,6 +30,12 @@ describe('Get function for line number', function() {
         assert.equal("abc", funcFound.func.id.name);
     });
     
+    it('should return function for anonymous exported function', function () {
+        var fileContents = fs.readFileSync("./tests/fixtures/module-exports.js", {encoding: "utf8"});
+        var funcFound = CodeParser.getFuncForLine(fileContents, 7);
+        assert.equal("abc", funcFound.name);
+    });
+    
     it('should return null if line number not within any function', function () {
         var fileContents = fs.readFileSync("./tests/fixtures/module-exports.js", {encoding: "utf8"});
         var funcFound = CodeParser.getFuncForLine(fileContents, 5);
