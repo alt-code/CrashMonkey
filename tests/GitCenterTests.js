@@ -25,4 +25,13 @@ describe('Git file commit tests', function() {
         var fileContentsActual = fs.readFileSync("./tests/fixtures/module-exports-2917ee.js", {encoding: "utf8"});
         assert.equal(fileContentsActual, fileContents);
     });
+    
+    it('should throw an error if file doesn\'t exist', function() {
+        assert.throws(function() {
+            GitCenter.getFileCommit(".", "master", "24c1e5", "tests/fixtures/module-exports.js");
+        });
+        assert.throws(function() {
+            GitCenter.getFileCommit(".", "master", 1, "tests/fixtures/module-exports2.js");
+        });
+    });
 });
