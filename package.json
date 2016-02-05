@@ -12,6 +12,7 @@
     "git-diff-parser": "^0.1.1",
     "lodash": "^4.1.0",
     "minimist": "^1.2.0",
+    "mocha": "^2.4.5",
     "promise": "^7.1.1",
     "tap-parser": "^1.2.2"
   },
