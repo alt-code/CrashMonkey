@@ -9,6 +9,7 @@
   "dependencies": {
     "del": "^2.2.0",
     "esprima": "^2.7.1",
+    "esquery": "^0.4.0",
     "git-diff-parser": "^0.1.1",
     "lodash": "^4.1.0",
     "minimist": "^1.2.0",
