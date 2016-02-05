@@ -26,19 +26,27 @@ describe('Get Exported Functions', function() {
 describe('Get function for line number', function() {
     it('should return outermost function for normal global functions', function () {
         var fileContents = fs.readFileSync("./tests/fixtures/module-exports.js", {encoding: "utf8"});
-        var funcFound = CodeParser.getFuncForLine(fileContents, 1);
-        assert.equal("abc", funcFound.func.id.name);
+        var funcsFound = CodeParser.getFuncsForLines(fileContents, 1);
+        assert.equal("abc", funcsFound[0].func.id.name);
     });
     
     it('should return function for anonymous exported function', function () {
         var fileContents = fs.readFileSync("./tests/fixtures/module-exports.js", {encoding: "utf8"});
-        var funcFound = CodeParser.getFuncForLine(fileContents, 7);
-        assert.equal("abc", funcFound.name);
+        var funcsFound = CodeParser.getFuncsForLines(fileContents, 7);
+        assert.equal("foo", funcsFound[0].name);
     });
     
     it('should return null if line number not within any function', function () {
         var fileContents = fs.readFileSync("./tests/fixtures/module-exports.js", {encoding: "utf8"});
-        var funcFound = CodeParser.getFuncForLine(fileContents, 5);
-        assert.equal(null, funcFound);
+        var funcsFound = CodeParser.getFuncsForLines(fileContents, 5);
+        assert.equal(0, funcsFound.length);
+    });
+    
+    it('should return list of functions for list of line numbers', function() {
+        var fileContents = fs.readFileSync("./tests/fixtures/module-exports.js", {encoding: "utf8"});
+        var funcsFound = CodeParser.getFuncsForLines(fileContents, [1]);
+        assert.equal(2, funcsFound.length);
+        funcsFound = CodeParser.getFuncsForLines(fileContents, [1, 5, 7]);
+        assert.equal(3, funcsFound.length);
     });
 });
