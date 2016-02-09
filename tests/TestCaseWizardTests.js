@@ -4,7 +4,31 @@ const _ = require("lodash");
 const Orchestrator = require("../lib/Orchestrator.js");
 const TCW = require("../lib/TestCaseWizard.js");
 
-describe('Permutation tests', function() {
+describe('TCW simple tests', function() {
+    describe('Simple function changes', function() {
+        var funcs;
+        before(function() {
+            funcs = Orchestrator.getFuncsChanged(".", "HEAD", "2917ee", "568ada");
+        });
+                
+        it('should return test cases for files', function() {
+            var testCaseFiles = TCW.generateTestCases(funcs);
+            assert.equal(2, testCaseFiles.length);
+            assert.equal(16, testCaseFiles[0].testCases.length);
+
+        });
+
+        it('should return the common offenders for simple params', function() {
+            var testCaseFiles = TCW.generateTestCases(funcs);
+            assert.equal(1, _.countBy(testCaseFiles[0].testCases, val => val.inputs[0] === null && val.inputs[1] === 0)[true]);
+            assert.equal(1, _.countBy(testCaseFiles[0].testCases, val => val.inputs[0] === null && val.inputs[1] === undefined)[true]);
+            assert.equal(1, _.countBy(testCaseFiles[0].testCases, val => val.inputs[0] === undefined && val.inputs[1] === undefined)[true]);
+            assert.equal(4, _.countBy(testCaseFiles[0].testCases, val => val.inputs[0] === undefined)[true]);
+        });
+    });
+});
+
+describe.skip('Permutation tests', function() {
     it('should do simple permutations', function() {
         var arr = TCW.permute([[1,2],[2,3],[4,5]]);
         assert.equal(8, arr.length);
