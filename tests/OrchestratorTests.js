@@ -25,7 +25,7 @@ describe('Orchestrator funcs changed tests', function() {
         assert.equal("getChanges", files[0].funcs[0].name);
     });
     
-    it('should not return functions for deleted files', function () {
+    it.skip('should not return functions for deleted files', function () {
         var files = Orchestrator.getFuncsChanged(".", "HEAD", "24c1e5", "a188fe");
         assert.equal(1, files.length);
     });
