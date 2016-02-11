@@ -5,6 +5,14 @@ const Orchestrator = require("../lib/Orchestrator.js");
 const TCW = require("../lib/TestCaseWizard.js");
 const MochaFormatter = require("../lib/formatters/mocha-formatter.js");
 
+var testStrings = fs.readFileSync("./tests/fixtures/mocha-test-strings.js", {encoding: "utf8"}).split(/\r?\n/);
+
+function getTestString(from, to) {
+    var testStr = testStrings.slice(from-1, to).join("\n");
+    testStr += "\n";
+    return testStr;
+}
+
 describe('Mocha formatter tests', function() {
     var testCaseFiles;
     before(function() {
@@ -16,14 +24,21 @@ describe('Mocha formatter tests', function() {
         var tempName = testCaseFiles[0].name;
         
         var fileContent = MochaFormatter.formatFile(testCaseFiles[0], "..");
-        assert.equal("var CodeParser = require(\"../lib/CodeParser.js\")\n", fileContent);
+        assert.equal(getTestString(1,1), fileContent);
         testCaseFiles[0].name = "lib/code-parser.js";
         fileContent = MochaFormatter.formatFile(testCaseFiles[0], "..");
-        assert.equal("var codeparser = require(\"../lib/code-parser.js\")\n", fileContent);
+        assert.equal(getTestString(2,2), fileContent);
         testCaseFiles[0].name = "lib/code_parser.js";
         fileContent = MochaFormatter.formatFile(testCaseFiles[0], "..");
-        assert.equal("var code_parser = require(\"../lib/code_parser.js\")\n", fileContent);
+        assert.equal(getTestString(3,3), fileContent);
         
         testCaseFiles[0].name = tempName;
+    });
+    
+    it('should return test cases', function() {
+        var testCase = MochaFormatter.formatTestCase(testCaseFiles[0].testCases[0]);
+        assert.equal(getTestString(5,7), testCase);
+        testCase = MochaFormatter.formatTestCase(testCaseFiles[0].testCases[1]);
+        assert.equal(getTestString(9,11), testCase);
     });
 });
