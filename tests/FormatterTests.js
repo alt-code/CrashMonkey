@@ -22,7 +22,7 @@ describe('Mocha formatter tests', function() {
 
     it('should return test cases for files', function() {
         var tempName = testCaseFiles[0].name;
-        
+
         var fileContent = MochaFormatter.formatFile(testCaseFiles[0], "..");
         assert.equal(getTestString(1,1), fileContent);
         testCaseFiles[0].name = "lib/code-parser.js";
@@ -31,14 +31,24 @@ describe('Mocha formatter tests', function() {
         testCaseFiles[0].name = "lib/code_parser.js";
         fileContent = MochaFormatter.formatFile(testCaseFiles[0], "..");
         assert.equal(getTestString(3,3), fileContent);
-        
+
         testCaseFiles[0].name = tempName;
     });
-    
+
     it('should return test cases', function() {
         var testCase = MochaFormatter.formatTestCase(testCaseFiles[0].testCases[0]);
         assert.equal(getTestString(5,7), testCase);
         testCase = MochaFormatter.formatTestCase(testCaseFiles[0].testCases[1]);
         assert.equal(getTestString(9,11), testCase);
+    });
+
+    it('should return all test cases for all files', function() {
+        var fileContents = MochaFormatter.formatTestSuite(testCaseFiles);
+        assert.equal(getTestString(13,61), fileContents[0].testFileContent);
+    });
+
+    it('should not return content for no test cases for a file', function() {
+        var fileContents = MochaFormatter.formatTestSuite(testCaseFiles);
+        assert.equal(undefined, fileContents[1].testFileContent);
     });
 });
