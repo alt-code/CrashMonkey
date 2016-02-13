@@ -8,7 +8,7 @@ describe('Get Exported Functions', function() {
     it('should should find all exported functions', function () {
         var fileContents = fs.readFileSync("./tests/fixtures/module-exports.js", {encoding: "utf8"});
         var funcs = CodeParser.getAllExportedFunctions(esprima.parse(fileContents));
-        assert.equal(3, funcs.length);
+        assert.equal(4, funcs.length);
         assert.ok(_.some(funcs, func => func.name === "."));
         assert.ok(_.some(funcs, func => func.name === "abc"));
     });
@@ -20,6 +20,12 @@ describe('Get Exported Functions', function() {
         assert.equal(1, funcs[0].params.length);
         assert.equal(2, funcs[2].params.length);
         assert.equal("mno", funcs[2].params[1].name);
+    });
+    
+    it('should return functions for export variants', function() {
+        var fileContents = fs.readFileSync("./tests/fixtures/module-exports.js", {encoding: "utf8"});
+        var funcs = CodeParser.getAllExportedFunctions(esprima.parse(fileContents));
+        assert.ok(_.some(funcs, func => func.name === "someFunc"));
     });
 });
 
