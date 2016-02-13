@@ -20,15 +20,15 @@ describe('TCW simple tests', function() {
 
         it('should return the common offenders for simple params', function() {
             var testCaseFiles = TCW.generateTestCases(funcs);
-            assert.equal(1, _.countBy(testCaseFiles[0].testCases, val => val.inputs[0] === null && val.inputs[1] === 0)[true]);
-            assert.equal(1, _.countBy(testCaseFiles[0].testCases, val => val.inputs[0] === null && val.inputs[1] === undefined)[true]);
-            assert.equal(1, _.countBy(testCaseFiles[0].testCases, val => val.inputs[0] === undefined && val.inputs[1] === undefined)[true]);
-            assert.equal(4, _.countBy(testCaseFiles[0].testCases, val => val.inputs[0] === undefined)[true]);
+            assert.equal(1, _.countBy(testCaseFiles[0].testCases, val => val.inputs[0] === "null" && val.inputs[1] === 0)[true]);
+            assert.equal(1, _.countBy(testCaseFiles[0].testCases, val => val.inputs[0] === "null" && val.inputs[1] === "undefined")[true]);
+            assert.equal(1, _.countBy(testCaseFiles[0].testCases, val => val.inputs[0] === "undefined" && val.inputs[1] === "undefined")[true]);
+            assert.equal(4, _.countBy(testCaseFiles[0].testCases, val => val.inputs[0] === "undefined")[true]);
         });
     });
 });
 
-describe.skip('Permutation tests', function() {
+describe('Permutation tests', function() {
     it('should do simple permutations', function() {
         var arr = TCW.permute([[1,2],[2,3],[4,5]]);
         assert.equal(8, arr.length);
