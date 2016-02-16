@@ -29,4 +29,11 @@ describe('Orchestrator funcs changed tests', function() {
         var files = Orchestrator.getFuncsChanged(".", "HEAD", "24c1e5", "a188fe");
         assert.equal(1, files.length);
     });
+    
+    it('should return functions for changes in a constructor prototype function', function() {
+        var files = Orchestrator.getFuncsChanged(".", "HEAD", "90be01", "b175b2");
+        assert.equal(3, files.length);
+        assert.equal(3, files[2].funcs.length);
+        assert.ok(_.some(files[2].funcs, func => func.name === "anotherFunc"));
+    });
 });
