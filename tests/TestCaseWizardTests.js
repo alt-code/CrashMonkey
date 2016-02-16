@@ -49,4 +49,11 @@ describe('Permutation tests', function() {
         assert.equal(2, _.countBy(arr, val => val[0] === undefined)[true]);
         assert.equal(3, _.countBy(arr, val => val[1] === null)[true]);
     });
+    
+    it('should output single array values as array of possible values', function () {
+        var arr = TCW.permute([[0, "undefined", "null", "\"\""]]);
+        assert.equal(4, arr.length);
+        assert.equal(1, arr[0].length);
+        assert.equal(1, arr[3].length);
+    });
 });
