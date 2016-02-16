@@ -15,7 +15,7 @@ describe('Get Exported Functions', function() {
     
     it('should should find all exported functions', function () {
         var funcs = CodeParser.getAllExportedFunctions(ast);
-        assert.equal(4, funcs.length);
+        assert.equal(5, funcs.length);
         assert.ok(_.some(funcs, func => func.name === "."));
         assert.ok(_.some(funcs, func => func.name === "abc"));
     });
@@ -31,6 +31,14 @@ describe('Get Exported Functions', function() {
     it('should return functions for export variants', function() {
         var funcs = CodeParser.getAllExportedFunctions(ast);
         assert.ok(_.some(funcs, func => func.name === "someFunc"));
+    });
+    
+    it('should return the exported functions (prototype) for a constructor function', function() {
+        var funcsFound = CodeParser.getAllExportedFunctions(ast);
+        var constrFunc = _.filter(funcsFound, func => func.name === ".")[1].func;
+        assert.ok(constrFunc);
+        assert.equal("constructor", constrFunc.cmType);
+        assert.ok(constrFunc.proto.someFunc);
     });
 });
 
