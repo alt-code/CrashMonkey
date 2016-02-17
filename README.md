@@ -1,4 +1,4 @@
-## CrashMonkey<img src="https://raw.githubusercontent.com/alt-code/CrashMonkey/master/docs/Monkey%20icon.jpg" width="48px">
+## CrashMonkey<img src="http://www.stretton-pre-school.co.uk/images/Monkey%20icon.jpg" width="48px">
 *Theres no Monkey business here!*
 
 Ever thought writing test cases in Javascript is hard? Ever gotten so frustrated with all the names of beverages masquerading as test frameworks which require as much effort to write test cases in as the code itself !?
