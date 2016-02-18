@@ -52,3 +52,20 @@ describe('Mocha formatter tests', function() {
         assert.equal(undefined, fileContents[1].testFileContent);
     });
 });
+
+describe('Test case type tests', function () {
+    it('should output a test case for exported function type', function () {
+        var funcs = Orchestrator.getFuncsChanged(".", "HEAD", "2917ee", "568ada");
+        var testCases = TCW.generateTestCases(funcs);
+        var testCase = MochaFormatter.formatTestCase(testCases[0].testCases[0]);
+        assert.equal(getTestString(5,7), testCase);
+    });
+    
+    it('should output a test case for root function type', function () {
+        var funcs = Orchestrator.getFuncsChanged(".", "HEAD", "b2b400", "2917ee");
+        var testCases= TCW.generateTestCases(funcs);
+        var testCase = MochaFormatter.formatTestCase(testCases[1].testCases[0]);
+        assert.equal(getTestString(63,65), testCase);
+    });
+});
+});

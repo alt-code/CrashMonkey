@@ -59,3 +59,7 @@ var ret0 = CodeParser.getFuncForLine("",null);
 it("getFuncForLine test", function() {
 var ret0 = CodeParser.getFuncForLine("","");
 });
+
+it("root function test", function() {
+var ret0 = moduleexports(0);
+});
