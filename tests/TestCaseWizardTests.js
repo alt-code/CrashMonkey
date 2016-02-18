@@ -71,7 +71,7 @@ describe('Make test case', function() {
         assert.equal(func.name, testCase.function);
         assert.equal(TCW.TCTYPE_EXPORTEDFUNC, testCase.type);
         assert.equal(1, testCase.callSequence.length);
-        assert.equal(".", testCase.callSequence[0].context);
+        assert.equal("{root}", testCase.callSequence[0].context);
         assert.equal(func.name, testCase.callSequence[0].function);
         assert.equal(params[0], testCase.callSequence[0].params[0]);
     });
@@ -84,8 +84,8 @@ describe('Make test case', function() {
         assert.equal(TCW.TCTYPE_ROOTFUNC, testCase.type);
         assert.equal(1, testCase.callSequence.length);
         assert.equal(params[0], testCase.callSequence[0].params[0]);
-        assert.equal(".", testCase.callSequence[0].context);
-        assert.equal(".", testCase.callSequence[0].function);
+        assert.equal("{root}", testCase.callSequence[0].context);
+        assert.equal("{root}", testCase.callSequence[0].function);
     });
     
     it('should output a test case for a constructor prototype function call', function() {
@@ -97,8 +97,8 @@ describe('Make test case', function() {
         var testCase = TCW.makeTestCase(file, func, params);
         assert.equal(TCW.TCTYPE_CONSTRPROTOFUNC, testCase.type);
         assert.equal(2, testCase.callSequence.length);
-        assert.equal(".", testCase.callSequence[0].context);
-        assert.equal(".", testCase.callSequence[0].function);
+        assert.equal("{root}", testCase.callSequence[0].context);
+        assert.equal("{root}", testCase.callSequence[0].function);
         assert.equal("{0}", testCase.callSequence[1].context);
         assert.equal(func.name, testCase.callSequence[1].function);
         assert.equal(params[0], testCase.callSequence[1].params[0]);

@@ -19,4 +19,5 @@ Exported function, Root function, Constructor prototype function
 Values for 'context' and 'function'  
 **"."** - no context  
 **"name"** - function name  
-**"{0}"** - value from call step 0
+**"{0}"** - value from call step 0  
+**"{root}"** - root module name
