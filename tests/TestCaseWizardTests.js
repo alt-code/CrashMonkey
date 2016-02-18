@@ -57,3 +57,15 @@ describe('Permutation tests', function() {
         assert.equal(1, arr[3].length);
     });
 });
+
+describe.only('Make test case', function() {
+    it('should output a simple test case for a function call', function() {
+        var file = {name: 'tests/fixtures/module-exports.js'};
+        var func = {name: 'abc'};
+        var params = ["undefined"];
+        var testCase = TCW.makeTestCase(file, func, params);
+        assert.equal(1, testCase.inputs.length);
+        assert.equal(file.name, testCase.filepath);
+        assert.equal(func.name, testCase.function);
+    });
+});
