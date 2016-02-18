@@ -58,14 +58,30 @@ describe('Permutation tests', function() {
     });
 });
 
-describe.only('Make test case', function() {
+describe('Make test case', function() {
     it('should output a simple test case for a function call', function() {
         var file = {name: 'tests/fixtures/module-exports.js'};
         var func = {name: 'abc'};
-        var params = ["undefined"];
+        var params = ["null"];
         var testCase = TCW.makeTestCase(file, func, params);
-        assert.equal(1, testCase.inputs.length);
         assert.equal(file.name, testCase.filepath);
         assert.equal(func.name, testCase.function);
+        assert.equal(TCW.TCTYPE_EXPORTEDFUNC, testCase.type);
+        assert.equal(1, testCase.callSequence.length);
+        assert.equal(".", testCase.callSequence[0].context);
+        assert.equal(func.name, testCase.callSequence[0].function);
+        assert.equal(params[0], testCase.callSequence[0].params[0]);
+    });
+    
+    it('should output a test case for a root function call', function() {
+        var file = {name: 'tests/fixtures/module-exports.js'};
+        var func = {name: '.'};
+        var params = ["undefined"];
+        var testCase = TCW.makeTestCase(file, func, params);
+        assert.equal(TCW.TCTYPE_ROOTFUNC, testCase.type);
+        assert.equal(1, testCase.callSequence.length);
+        assert.equal(params[0], testCase.callSequence[0].params[0]);
+        assert.equal(".", testCase.callSequence[0].context);
+        assert.equal(".", testCase.callSequence[0].function);
     });
 });
