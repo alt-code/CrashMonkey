@@ -20,10 +20,13 @@ describe('TCW simple tests', function() {
 
         it('should return the common offenders for simple params', function() {
             var testCaseFiles = TCW.generateTestCases(funcs);
-            assert.equal(1, _.countBy(testCaseFiles[0].testCases, val => val.inputs[0] === "null" && val.inputs[1] === 0)[true]);
-            assert.equal(1, _.countBy(testCaseFiles[0].testCases, val => val.inputs[0] === "null" && val.inputs[1] === "undefined")[true]);
-            assert.equal(1, _.countBy(testCaseFiles[0].testCases, val => val.inputs[0] === "undefined" && val.inputs[1] === "undefined")[true]);
-            assert.equal(4, _.countBy(testCaseFiles[0].testCases, val => val.inputs[0] === "undefined")[true]);
+            var params = _.map(testCaseFiles[0].testCases, tc => tc.callSequence[0].params);
+            assert.equal(1, _.countBy(params, val => val[0] === "null" && val[1] === 0)[true]);
+            assert.equal(1, _.countBy(params, val => val[0] === "null" && val[1] === "undefined")[true]);
+            assert.equal(1, _.countBy(params, val => val[0] === "undefined" && val[1] === "undefined")[true]);
+            assert.equal(4, _.countBy(params, val => val[0] === "undefined")[true]);
+        });
+    });
         });
     });
 });
@@ -83,5 +86,21 @@ describe('Make test case', function() {
         assert.equal(params[0], testCase.callSequence[0].params[0]);
         assert.equal(".", testCase.callSequence[0].context);
         assert.equal(".", testCase.callSequence[0].function);
+    });
+    
+    it('should output a test case for a constructor prototype function call', function() {
+        var file = {name: 'tests/fixtures/module-exports.js'};
+        var func = {name: 'abc', protoParent: {
+            id: {name: '.'}
+        }};
+        var params = ["undefined"];
+        var testCase = TCW.makeTestCase(file, func, params);
+        assert.equal(TCW.TCTYPE_CONSTRPROTOFUNC, testCase.type);
+        assert.equal(2, testCase.callSequence.length);
+        assert.equal(".", testCase.callSequence[0].context);
+        assert.equal(".", testCase.callSequence[0].function);
+        assert.equal("{0}", testCase.callSequence[1].context);
+        assert.equal(func.name, testCase.callSequence[1].function);
+        assert.equal(params[0], testCase.callSequence[1].params[0]);
     });
 });
