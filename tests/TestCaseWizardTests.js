@@ -26,7 +26,14 @@ describe('TCW simple tests', function() {
             assert.equal(1, _.countBy(params, val => val[0] === "undefined" && val[1] === "undefined")[true]);
             assert.equal(4, _.countBy(params, val => val[0] === "undefined")[true]);
         });
-    });
+
+        it('should return constructor test cases for constructor prototype function calls', function() {
+            var funcs = Orchestrator.getFuncsChanged(".", "HEAD", "90be01", "b175b2");
+            var testCaseFiles = TCW.generateTestCases(funcs);
+            assert.equal(3, testCaseFiles.length);
+            assert.equal(3, testCaseFiles[2].testCases.length);
+            assert.equal(2, testCaseFiles[2].testCases[1].callSequence.length);
+            assert.ok(testCaseFiles[2].testCases[1].type === TCW.TCTYPE_CONSTRPROTOFUNC);
         });
     });
 });
@@ -64,7 +71,7 @@ describe('Permutation tests', function() {
 describe('Make test case', function() {
     it('should output a simple test case for a function call', function() {
         var file = {name: 'tests/fixtures/module-exports.js'};
-        var func = {name: 'abc'};
+        var func = {name: 'abc', func: {}};
         var params = ["null"];
         var testCase = TCW.makeTestCase(file, func, params);
         assert.equal(file.name, testCase.filepath);
@@ -78,7 +85,7 @@ describe('Make test case', function() {
     
     it('should output a test case for a root function call', function() {
         var file = {name: 'tests/fixtures/module-exports.js'};
-        var func = {name: '.'};
+        var func = {name: '.', func: {}};
         var params = ["undefined"];
         var testCase = TCW.makeTestCase(file, func, params);
         assert.equal(TCW.TCTYPE_ROOTFUNC, testCase.type);
@@ -90,9 +97,10 @@ describe('Make test case', function() {
     
     it('should output a test case for a constructor prototype function call', function() {
         var file = {name: 'tests/fixtures/module-exports.js'};
-        var func = {name: 'abc', protoParent: {
-            id: {name: '.'}
-        }};
+        var func = {
+            name: 'abc', 
+            func: { protoParent: { id: {name: '.'}}}
+        };
         var params = ["undefined"];
         var testCase = TCW.makeTestCase(file, func, params);
         assert.equal(TCW.TCTYPE_CONSTRPROTOFUNC, testCase.type);

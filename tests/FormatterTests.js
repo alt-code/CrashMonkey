@@ -67,5 +67,11 @@ describe('Test case type tests', function () {
         var testCase = MochaFormatter.formatTestCase(testCases[1].testCases[0]);
         assert.equal(getTestString(63,65), testCase);
     });
-});
+    
+    it('should output a test case for constructor function type', function () {
+        var funcs = Orchestrator.getFuncsChanged(".", "HEAD", "90be01", "b175b2");
+        var testCases= TCW.generateTestCases(funcs);
+        var testCase = MochaFormatter.formatTestCase(testCases[2].testCases[1]);
+        assert.equal(getTestString(67,70), testCase);
+    });
 });
