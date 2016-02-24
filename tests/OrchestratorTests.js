@@ -39,10 +39,24 @@ describe('Orchestrator funcs changed tests', function() {
 });
 
 describe('Orchestrator generate test case files tests', function () {
-    it('should create test cases for simple change commit', function() {
+    var TEST_DIR = "./cmTests";
+    beforeEach(function() {
+        if (fs.existsSync(TEST_DIR)) {
+            var dir = fs.readdirSync("./cmTests");
+            for (var i = 0; i < dir.length; i++)
+                fs.unlinkSync(`${TEST_DIR}/${dir[i]}`);
+        }
+    });
+
+    it.only('should create test cases for simple change commit', function() {
         Orchestrator.generateTestCases(".", "HEAD", "24c1e5", "a188fe");
-        assert.ok(fs.existsSync("./cmTests/CodeParser.js"));
+        assert.ok(fs.existsSync(TEST_DIR + "/CodeParser.js"));
         Orchestrator.generateTestCases(".", "HEAD", "2917ee", "b2b400");
-        assert.ok(fs.existsSync("./cmTests/module-exports.js"));
+        assert.ok(fs.existsSync(TEST_DIR + "/module-exports.js"));
+    });
+
+    it('should create test cases for constructor prototype function change commit', function () {
+        Orchestrator.generateTestCases(".", "HEAD", "90be01", "b175b2");
+        assert.ok(fs.existsSync(TEST_DIR + "/module-exports.js"));
     });
 });
