@@ -25,4 +25,8 @@ describe('Mocha runner tests', function () {
     it('should verify if tests have ids', function () {
         assert.ok(/::\d+::/.test(output.tests[0].name));
     });
+
+    it('should verify that results have corresponding files', function() {
+        assert.equal("tests/fixtures/mocha/mocha-test.js", output.tests[0].file);
+    });
 });
