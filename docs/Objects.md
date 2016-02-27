@@ -21,3 +21,12 @@ Values for 'context' and 'function'
 **"name"** - function name  
 **"{0}"** - value from call step 0  
 **"{root}"** - root module name
+
+#### Test results
+```
+{
+    tests : [{
+        result, file, failure, stacktrace
+    }]
+}
+```

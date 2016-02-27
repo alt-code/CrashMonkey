@@ -60,3 +60,11 @@ describe('Orchestrator generate test case files tests', function () {
         assert.ok(fs.existsSync(TEST_DIR + "/module-exports.js"));
     });
 });
+
+describe.only('Orchestrator runs test cases', function() {
+    it('should run test cases and print results to file', function(done) {
+        Orchestrator.executeTestCases("tests/fixtures/mocha").done(function() {
+            done();
+        })
+    })
+})

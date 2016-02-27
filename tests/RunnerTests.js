@@ -6,7 +6,7 @@ var MochaRunner = require("../lib/test-engines/mocha.js");
 describe('Mocha runner tests', function () {
     var output;
     before(function(done) {
-        MochaRunner.executeTests("tests\\fixtures\\mocha\\mocha-test.js").then(function(out) {
+        MochaRunner.executeTests("tests\\fixtures\\mocha").then(function(out) {
             if (out) {
                 output = out;
                 done();
