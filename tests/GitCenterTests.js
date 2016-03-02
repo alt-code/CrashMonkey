@@ -23,6 +23,8 @@ describe('Git file commit tests', function() {
     it('should return file contents for a corresponding commit', function() {
         var fileContents = GitCenter.getFileCommit(".", "master", "2917ee", "tests/fixtures/module-exports.js");
         var fileContentsActual = fs.readFileSync("./tests/fixtures/module-exports-2917ee.js", {encoding: "utf8"});
+        fileContents = fileContents.replace(/\r/g, "");
+        fileContentsActual = fileContentsActual.replace(/\r/g, "");
         assert.equal(fileContentsActual, fileContents);
     });
     

@@ -48,7 +48,7 @@ describe('Orchestrator generate test case files tests', function () {
         }
     });
 
-    it.only('should create test cases for simple change commit', function() {
+    it('should create test cases for simple change commit', function() {
         Orchestrator.generateTestCases(".", "HEAD", "24c1e5", "a188fe");
         assert.ok(fs.existsSync(TEST_DIR + "/CodeParser.js"));
         Orchestrator.generateTestCases(".", "HEAD", "2917ee", "b2b400");
@@ -61,7 +61,7 @@ describe('Orchestrator generate test case files tests', function () {
     });
 });
 
-describe.only('Orchestrator runs test cases', function() {
+describe('Orchestrator runs test cases', function() {
     it('should run test cases and print results to file', function(done) {
         Orchestrator.executeTestCases("tests/fixtures/mocha").done(function() {
             done();
