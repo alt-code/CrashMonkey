@@ -16,3 +16,30 @@ describe("Tern basic tests", function() {
         });
     });
 });
+
+describe("Tern type parsing tests", function () {
+    describe("Basic types", function () {
+        it("should return no types for no params", function () {
+            var types = TernMaster.getParamTypes("fn()");
+            assert.equal(0, types.length);
+        });
+        
+        it("should return type for a single param", function () {
+            var types = TernMaster.getParamTypes("fn(def: ?)");
+            assert.equal(1, types.length);
+            assert.equal("unknown", types[0]);
+        });
+        
+        it("should return types for multiple params", function () {
+            var types = TernMaster.getParamTypes("fn(def: ?, xyz: number)");
+            assert.equal(2, types.length);
+            assert.equal("unknown", types[0]);
+            assert.equal("number", types[1]);
+            var types = TernMaster.getParamTypes("fn(def: ?, xyz: number, mmA: String)");
+            assert.equal(3, types.length);
+            assert.equal("unknown", types[0]);
+            assert.equal("number", types[1]);
+            assert.equal("string", types[2]);
+        });
+    });
+})
