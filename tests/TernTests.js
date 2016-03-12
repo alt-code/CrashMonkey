@@ -42,4 +42,26 @@ describe("Tern type parsing tests", function () {
             assert.equal("string", types[2]);
         });
     });
+    
+    describe("Complex types", function () {
+        it("should return array types", function () {
+            var types = TernMaster.getParamTypes("fn(def: [?])");
+            assert.equal(1, types.length);
+            assert.equal("array", types[0]);
+        });
+        
+        it("should return object types", function () {
+            var types = TernMaster.getParamTypes("fn(def: {something})");
+            assert.equal(1, types.length);
+            assert.equal("object", types[0]);
+        });
+        
+        it("should return complex types for multiple params", function() {
+            var types = TernMaster.getParamTypes("fn(file: ?, fileContents: ?, offset: {ch, line})");
+            assert.equal(3, types.length);
+            assert.equal("unknown", types[0]);
+            assert.equal("unknown", types[1]);
+            assert.equal("object", types[2]);
+        });
+    });
 })
