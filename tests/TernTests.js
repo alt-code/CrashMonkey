@@ -64,4 +64,24 @@ describe("Tern type parsing tests", function () {
             assert.equal("object", types[2]);
         });
     });
+    
+    describe("Combined get types and return type tests", function () {
+        it ("should not return return type", function () {
+            var types = TernMaster.getTypes("fn(def: ?)");
+            assert.equal(1, types.params.length);
+            assert.equal("unknown", types.return);
+        });
+        
+        it("should return types for params and function return", function () {
+            var types = TernMaster.getTypes("fn(def: ?): string");
+            assert.equal(1, types.params.length);
+            assert.equal("string", types.return);
+        });
+        
+        it("should return types for params and complex function return", function () {
+            var types = TernMaster.getTypes("fn(def: ?): {func, name}");
+            assert.equal(1, types.params.length);
+            assert.equal("object", types.return);
+        });
+    });
 })
