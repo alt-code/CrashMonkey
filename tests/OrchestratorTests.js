@@ -36,6 +36,14 @@ describe('Orchestrator funcs changed tests', function() {
         assert.equal(3, files[2].funcs.length);
         assert.ok(_.some(files[2].funcs, func => func.name === "anotherFunc"));
     });
+    
+    it('should return functions for changes in a anonymous function', function() {
+        var files = Orchestrator.getFuncsChanged(".", "HEAD", "1510a1", "65c533");
+        assert.equal(3, files.length);
+        assert.equal(2, files[2].funcs.length);
+        assert.ok(_.some(files[2].funcs, func => func.name === "foo"));
+        assert.equal(2, files[2].funcs[0].func.params.length);
+    });
 });
 
 describe('Orchestrator generate test case files tests', function () {
