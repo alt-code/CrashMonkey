@@ -22,6 +22,20 @@ describe("Tern basic tests", function() {
             done();
         });
     });
+    
+    it("should work for a complex example", function (done) {
+        var files = Orchestrator.getFuncsChanged(".", "HEAD", "039d81", "9a9551");
+        TernMaster.getTypesForFuncsInFiles(files).done(function () {
+            assert.equal(1, files[0].funcs.length);
+            assert.equal(4, files[0].funcs[0].func.params.length);
+            assert.equal("unknown", files[0].funcs[0].func.params[0].inferredType);
+            assert.equal("string", files[0].funcs[0].func.params[1].inferredType);
+            assert.equal("number", files[0].funcs[0].func.params[2].inferredType);
+            assert.equal("number", files[0].funcs[0].func.params[3].inferredType);
+            assert.equal("unknown", files[0].funcs[0].func.inferredReturnType);
+            done();
+        });
+    });
 });
 
 describe("Tern type parsing tests", function () {
