@@ -5,13 +5,20 @@ const TernMaster = require("../lib/TernMaster.js");
 const Orchestrator = require("../lib/Orchestrator.js");
 
 describe("Tern basic tests", function() {
-    var files;
-    before(function() {
-        files = Orchestrator.getFuncsChanged(".", "HEAD", "24c1e5", "a188fe");
+    it("should append type for basic function", function(done) {
+        var files = Orchestrator.getFuncsChanged(".", "HEAD", "24c1e5", "a188fe");
+        TernMaster.getTypesForFuncsInFiles(files).done(function () {
+            assert.equal("unknown", files[0].funcs[0].func.params[0].inferredType);
+            done();
+        });
     });
     
-    it("should type for basic function", function(done) {
+    it("should append type for multiple params", function(done) {
+        var files = Orchestrator.getFuncsChanged(".", "HEAD", "1510a1", "65c533");
         TernMaster.getTypesForFuncsInFiles(files).done(function () {
+            assert.equal(2, files[2].funcs.length);
+            assert.equal("unknown", files[2].funcs[1].func.params[0].inferredType);
+            assert.equal("unknown", files[2].funcs[1].func.params[1].inferredType);
             done();
         });
     });
@@ -83,5 +90,11 @@ describe("Tern type parsing tests", function () {
             assert.equal(1, types.params.length);
             assert.equal("object", types.return);
         });
+        
+        it("should return types for a arrow seperator example", function () {
+            var types = TernMaster.getTypes("fn(fileContents: ?, lines: [?]): [?]");
+            assert.equal(2, types.params.length);
+            assert.equal("array", types.return);
+        })
     });
 })
