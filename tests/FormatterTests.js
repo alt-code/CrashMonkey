@@ -75,3 +75,38 @@ describe('Test case type tests', function () {
         assert.equal(getTestString(67,70), testCase);
     });
 });
+
+describe('Get test case bodies tests', function() {
+    var fileContents;
+    before(function() {
+        fileContents= fs.readFileSync("./tests/fixtures/test-case.js", {encoding: 'utf8'});
+    });
+
+    it('should return test suites', function () {
+        var tests = MochaFormatter.getTestCasesText(fileContents);
+        assert.equal("suite", tests.type);
+        assert.equal(1, tests.testcases.length);
+        assert.equal(8, tests.testcases[0].testcases.length);
+        assert.ok(_.every(tests.testcases[0].testcases, x => x.type === "testcase"));
+    });
+
+    it('should return test case locations corresponding to code', function() {
+        var tests = MochaFormatter.getTestCasesText(fileContents);
+        var lines = fileContents.split(/\r?\n/);
+        var tc1loc = tests.testcases[0].testcases[0].body.loc;
+        var tc1act = lines.slice(tc1loc.start.line-1, tc1loc.end.line);
+        var tc1 = [ '  it(\'should get the version\', function() {',
+                   '    expect(/\\d+\\.\\d+\\.\\d+/.test($.version)).to.be.ok();',
+                   '  });' ];
+        assert.equal(tc1.join(""), tc1act.join(""));
+        var tc2loc = tests.testcases[0].testcases[6].body.loc;
+        var tc2act = lines.slice(tc2loc.start.line-1, tc2loc.end.line);
+        var tc2 = [ '  it(\'should be able to create html without a root or context\', function() {',
+                   '    var $h2 = $(\'<h2>\');',
+                   '    expect($h2).to.not.be.empty();',
+                   '    expect($h2).to.have.length(1);',
+                   '    expect($h2[0].tagName).to.equal(\'h2\');',
+                   '  });' ];
+        assert.equal(tc2.join(""), tc2act.join(""));
+    });
+});
