@@ -14,5 +14,7 @@ describe("Test Case Analyzer tests", function () {
         var testCase = TestCaseAnalyzer.analyzeTestCases(file, fileContents);
         assert.ok(testCase.rootVars);
         assert.ok(testCase.rootVars.$);
+        assert.ok(testCase.rootVars.expect === undefined);
+        assert.ok(testCase.rootVars._ === undefined);
     });
 });

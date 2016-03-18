@@ -100,3 +100,14 @@ describe('Get variable uses in block tests', function(){
         assert.equal("Literal", uses.$.functioncalls[0].arguments[0].type);
     });
 });
+
+describe('Get global require variables tests', function () {
+    it('should return global require variables', function () {
+        var fileContents = fs.readFileSync("./tests/fixtures/test-case.js", {encoding: "utf8"});
+        var reqs = CodeParser.getGlobalReqs(fileContents);
+        assert.equal(3, reqs.length);
+        assert.equal("expect", reqs[0]);
+        assert.equal("_", reqs[1]);
+        assert.equal("htmlparser2", reqs[2]);
+    });
+});
