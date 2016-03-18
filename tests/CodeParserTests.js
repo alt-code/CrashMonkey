@@ -1,6 +1,7 @@
 const assert = require('assert');
 const CodeParser = require("../lib/CodeParser.js");
 const esprima = require("esprima");
+const esquery = require("esquery");
 const esprimaWalk = require("esprima-walk");
 const fs = require("fs");
 const _ = require("lodash");
@@ -70,5 +71,22 @@ describe('Get function for line number', function() {
         assert.equal(2, funcsFound.length);
         funcsFound = CodeParser.getFuncsForLines(ast, [1, 5, 7]);
         assert.equal(3, funcsFound.length);
+    });
+});
+
+describe('Get variable uses in block tests', function(){
+    var ast;
+    before(function() {
+        var fileContents = fs.readFileSync("./tests/fixtures/test-case.js", {encoding: "utf8"});
+        ast = esprima.parse(fileContents, {loc: true});
+        esprimaWalk.walkAddParent(ast, function() {});
+    });
+
+    it('should return function call on a global var', function() {
+        var testcases = esquery(ast, "CallExpression [callee.name=\"it\"]");
+        var tc1 = testcases[3].arguments[1].body;
+        var uses = CodeParser.getVariableUses(tc1, ["$"]);
+        assert.equal(1, uses.$.functioncalls.length);
+        assert.equal("Literal", uses.$.functioncalls[0].arguments[0].type);
     });
 });
