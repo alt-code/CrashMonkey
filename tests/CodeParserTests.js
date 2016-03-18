@@ -99,6 +99,15 @@ describe('Get variable uses in block tests', function(){
         assert.equal("load", uses.$.functioncalls[0].property[0]);
         assert.equal("Literal", uses.$.functioncalls[0].arguments[0].type);
     });
+    
+    it('should return function call multiple vars', function() {
+        var testcases = esquery(ast, "CallExpression [callee.name=\"it\"]");
+        var tc1 = testcases[5].arguments[1].body;
+        var uses = CodeParser.getVariableUses(tc1, ["$", "C"]);
+        assert.equal(1, uses.$.functioncalls.length);
+        assert.equal(2, uses.C.functioncalls.length);
+        assert.equal(0, uses.C.functioncalls[0].property.length);
+    });
 });
 
 describe('Get global require variables tests', function () {
