@@ -18,10 +18,19 @@ describe("Test Case Analyzer tests", function () {
         assert.ok(testCase.rootVars._ === undefined);
     });
     
-    it.only("should return function calls for global variables", function () {
+    it("should return function calls for global variables", function () {
         var describeTests = testCase.tests.testcases[0];
         assert.equal("testcase", describeTests.testcases[0].type);
         assert.ok(describeTests.testcases[1].varUses.$);
         assert.equal(1, describeTests.testcases[1].varUses.$.functioncalls[0].arguments.length);
+    });
+    
+    it("should infer param types for function calls", function () {
+        var describeTests = testCase.tests.testcases[0];
+        assert.equal("null", describeTests.testcases[1].varUses.$.functioncalls[0].arguments[0].inferredType);
+        assert.equal("undefined", describeTests.testcases[2].varUses.$.functioncalls[0].arguments[0].inferredType);
+        assert.equal("string", describeTests.testcases[3].varUses.$.functioncalls[0].arguments[0].inferredType);
+        assert.equal("string", describeTests.testcases[4].varUses.$.functioncalls[0].arguments[0].inferredType);
+        assert.equal("string", describeTests.testcases[4].varUses.$.functioncalls[1].arguments[0].inferredType);
     });
 });
