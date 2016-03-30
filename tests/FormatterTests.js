@@ -1,6 +1,7 @@
 const assert = require('assert');
 const fs = require("fs");
 const _ = require("lodash");
+const esprima = require("esprima");
 const Orchestrator = require("../lib/Orchestrator.js");
 const TCW = require("../lib/TestCaseWizard.js");
 const MochaFormatter = require("../lib/formatters/mocha-formatter.js");
@@ -77,13 +78,14 @@ describe('Test case type tests', function () {
 });
 
 describe('Get test case bodies tests', function() {
-    var fileContents;
+    var fileContents, ast;
     before(function() {
         fileContents= fs.readFileSync("./tests/fixtures/test-case.js", {encoding: 'utf8'});
+        ast = esprima.parse(fileContents, {loc: true});
     });
 
     it('should return test suites', function () {
-        var tests = MochaFormatter.getTestCasesText(fileContents);
+        var tests = MochaFormatter.getTestCasesText(ast);
         assert.equal("suite", tests.type);
         assert.equal(1, tests.testcases.length);
         assert.equal(8, tests.testcases[0].testcases.length);
@@ -91,7 +93,7 @@ describe('Get test case bodies tests', function() {
     });
 
     it('should return test case locations corresponding to code', function() {
-        var tests = MochaFormatter.getTestCasesText(fileContents);
+        var tests = MochaFormatter.getTestCasesText(ast);
         var lines = fileContents.split(/\r?\n/);
         var tc1loc = tests.testcases[0].testcases[0].body.loc;
         var tc1act = lines.slice(tc1loc.start.line-1, tc1loc.end.line);
