@@ -11,7 +11,7 @@ describe("Tracer tests", function () {
     before (function () {
         if (!fs.existsSync("./repos/CrashMonkey"))
             child_process.execSync("git clone https://github.com/alt-code/CrashMonkey.git", {cwd: "./repos"});
-        child_process.execSync("git checkout 1510a1", {cwd: "./repos/CrashMonkey"});
+        child_process.execSync("git reset 1510a1 --hard", {cwd: "./repos/CrashMonkey"});
         
         var files = Orchestrator.getFuncsChanged("./repos/CrashMonkey");
         //console.log(files.map(x => x.funcs));
@@ -33,6 +33,13 @@ describe("Tracer tests", function () {
             if (x.indexOf("it('should") !== -1)
                  itLines.push(index);
         });
-        assert.ok(_.every(itLines, x => /console\.log\('testcase \d+'\)/.test(lines[x+1]))) ;
+        assert.ok(_.every(itLines, x => /console\.log\('testcase \d+'\)/.test(lines[x+1])));
+    });
+    
+    it.only("should run the tracer tests", function (done) {
+        Tracer.runTraceTests("./repos/CrashMonkey", "tests\\GitCenterTests.js").then(function (testcases) {
+            console.log(testcases);
+            done();
+        });
     });
 });
