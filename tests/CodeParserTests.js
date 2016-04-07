@@ -124,7 +124,9 @@ describe('Get global require variables tests', function () {
 describe('Dynamic parsing tests', function () {
     it('should get functions exposed through dynamic parsing', function () {
         var funcs = CodeParser.dynamicParse(".", "tests/fixtures/module-exports2.js");
-        assert.equal(1, funcs.length);
+        assert.equal(3, funcs.length);
         assert.equal(".", funcs[0].name);
+        assert.equal("abc", funcs[1].name);
+        assert.equal("someFunc", funcs[2].name);
     });
 })
