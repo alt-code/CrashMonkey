@@ -36,7 +36,7 @@ describe("Tracer tests", function () {
         assert.ok(_.every(itLines, x => /console\.log\('testcase \d+'\)/.test(lines[x+1])));
     });
     
-    it.only("should run the tracer tests", function (done) {
+    it("should run the tracer tests", function (done) {
         Tracer.runTraceTests("./repos/CrashMonkey", "tests\\GitCenterTests.js").then(function (testcases) {
             console.log(testcases);
             done();

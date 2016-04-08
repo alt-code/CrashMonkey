@@ -1,6 +1,7 @@
 const assert = require('assert');
 const fs = require("fs");
 const _ = require("lodash");
+const child_process = require("child_process");
 const Orchestrator = require("../lib/Orchestrator.js");
 
 describe('Orchestrator funcs changed tests', function() {
@@ -83,6 +84,23 @@ describe('Orchestrator generate test case files tests', function () {
             done();
         });
     });
+});
+
+describe('node-dateformat tests', function () {
+    var files;
+    before (function () {
+        if (!fs.existsSync("./repos/node-dateformat"))
+            child_process.execSync("git clone https://github.com/felixge/node-dateformat.git", {cwd: "./repos"});
+        child_process.execSync("git reset efa4fe --hard", {cwd: "./repos/node-dateformat"});
+        
+        files = Orchestrator.getFuncsChanged("./repos/node-dateformat");
+    });
+    
+    it ('should be able to get functions that changed', function () {
+        assert.equal(2, files.length);
+        assert.equal(1, files[1].funcs.length);
+        assert.equal(".", files[1].funcs[0].name);  
+    })
 });
 
 describe('Orchestrator runs test cases', function() {
