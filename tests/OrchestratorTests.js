@@ -58,28 +58,32 @@ describe('Orchestrator generate test case files tests', function () {
     });
 
     it('should create test cases for simple change commit', function(done) {
-        Orchestrator.generateTestCases(".", "HEAD", "24c1e5", "a188fe").then(function() {
+        var opts = {commit: {branch: "HEAD", commitOld: "24c1e5", commitNew: "a188fe"}};
+        Orchestrator.generateTestCases(".", opts).then(function() {
             assert.ok(fs.existsSync(TEST_DIR + "/CodeParser.js"));
             done();
         });
     });
     
     it('should create test cases for simple change commit 2', function (done) {
-        Orchestrator.generateTestCases(".", "HEAD", "b2b400", "2917ee").then(function() {
+        var opts = {commit: {branch: "HEAD", commitOld: "b2b400", commitNew: "2917ee"}};
+        Orchestrator.generateTestCases(".", opts).then(function() {
             assert.ok(fs.existsSync(TEST_DIR + "/module-exports.js"));
             done();
         });
     })
 
     it('should create test cases for constructor prototype function change commit', function (done) {
-        Orchestrator.generateTestCases(".", "HEAD", "90be01", "b175b2").then(function() {
+        var opts = {commit: {branch: "HEAD", commitOld: "90be01", commitNew: "b175b2"}};
+        Orchestrator.generateTestCases(".", opts).then(function() {
             assert.ok(fs.existsSync(TEST_DIR + "/module-exports.js"));
             done();
         });
     });
     
     it('should generate test cases for types', function (done) {
-        Orchestrator.generateTestCases(".", "HEAD", "b175b2", "aa49d1").then(function() {
+        var opts = {commit: {branch: "HEAD", commitOld: "b175b2", commitNew: "aa49d1"}};
+        Orchestrator.generateTestCases(".", opts).then(function() {
             assert.ok(fs.existsSync(TEST_DIR + "/Orchestrator.js"));
             done();
         });
