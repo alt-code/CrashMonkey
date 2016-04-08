@@ -105,15 +105,12 @@ describe('node-dateformat tests', function () {
 
 describe('node-dateformat all tests', function () {
     var files, results;
-    before (function (done) {
+    before (function () {
         if (!fs.existsSync("./repos/node-dateformat"))
             child_process.execSync("git clone https://github.com/felixge/node-dateformat.git", {cwd: "./repos"});
-        child_process.execSync("git reset 17364d4 --hard", {cwd: "./repos/node-dateformat"});
+        child_process.execSync("git reset 17364d --hard", {cwd: "./repos/node-dateformat"});
         
-        Orchestrator.getAllFuncs("./repos/node-dateformat", ["lib/dateformat.js"]).then(function(results) {
-            files = results;
-            done();
-        });
+        files = Orchestrator.getAllFuncs("./repos/node-dateformat", ["lib/dateformat.js"]);
     });
     
     it ("should have parsed the dateformat file for funcs", function () {
