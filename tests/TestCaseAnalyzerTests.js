@@ -36,12 +36,12 @@ describe("Test Case Analyzer tests", function () {
     });
 });
 
-describe.only("node-dateformat tests", function () {
+describe("node-dateformat tests", function () {
     var testCase;
     before(function () {
         if (!fs.existsSync("./repos/node-dateformat"))
             child_process.execSync("git clone https://github.com/felixge/node-dateformat.git", {cwd: "./repos"});
-        child_process.execSync("git reset 17364d4 --hard", {cwd: "./repos/node-dateformat"});
+        child_process.execSync("git reset 17364d --hard", {cwd: "./repos/node-dateformat"});
         
         var file = "./repos/node-dateformat/test/test_formats.js";
         var fileContents = fs.readFileSync(file, {encoding: "utf8"});

@@ -108,18 +108,23 @@ describe('node-dateformat tests', function () {
 });
 
 describe('node-dateformat all tests', function () {
-    var files, results;
     before (function () {
         if (!fs.existsSync("./repos/node-dateformat"))
             child_process.execSync("git clone https://github.com/felixge/node-dateformat.git", {cwd: "./repos"});
         child_process.execSync("git reset 17364d --hard", {cwd: "./repos/node-dateformat"});
-        
-        files = Orchestrator.getAllFuncs("./repos/node-dateformat", ["lib/dateformat.js"]);
     });
     
-    it ("should have parsed the dateformat file for funcs", function () {
+    it ("should parse the dateformat file for funcs", function () {
+        var files = Orchestrator.getAllFuncs("./repos/node-dateformat", ["lib/dateformat.js"]);
         assert.equal(1, files.length);
         assert.equal(1, files[0].funcs.length);
+    });
+    
+    it.only("should generate test cases based on test case analysed types", function (done) {
+        var opts = {files: ["lib/dateformat.js"], tests: ["test/test_formats.js"]}
+        Orchestrator.generateTestCases("./repos/node-dateformat", opts).then(function () {
+           done(); 
+        });
     });
 });
 
