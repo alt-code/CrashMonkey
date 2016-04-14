@@ -119,6 +119,14 @@ describe('Get global require variables tests', function () {
         assert.equal("_", reqs[1]);
         assert.equal("htmlparser2", reqs[2]);
     });
+    
+    it('should return modules for global require variables', function () {
+        var fileContents = fs.readFileSync("./tests/fixtures/test-case.js", {encoding: "utf8"});
+        var modules = CodeParser.getModulesForReqs(fileContents, ["$", "fixtures"]);
+        assert.equal(2, modules.length);
+        assert.equal("../", modules[0]);
+        assert.equal("./fixtures", modules[1]);
+    });
 });
 
 describe('Dynamic parsing tests', function () {
