@@ -120,7 +120,7 @@ describe('node-dateformat all tests', function () {
         assert.equal(1, files[0].funcs.length);
     });
     
-    it.only("should generate test cases based on test case analysed types", function (done) {
+    it("should generate test cases based on test case analysed types", function (done) {
         var opts = {files: ["lib/dateformat.js"], tests: ["test/test_formats.js"]}
         Orchestrator.generateTestCases("./repos/node-dateformat", opts).then(function () {
            done(); 

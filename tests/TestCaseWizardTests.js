@@ -12,14 +12,14 @@ describe('TCW simple tests', function() {
         });
                 
         it('should return test cases for files', function() {
-            var testCaseFiles = TCW.generateTestCases(funcs);
+            var testCaseFiles = TCW.generateTestCases(funcs, []);
             assert.equal(2, testCaseFiles.length);
             assert.equal(16, testCaseFiles[0].testCases.length);
 
         });
 
         it('should return the common offenders for simple params', function() {
-            var testCaseFiles = TCW.generateTestCases(funcs);
+            var testCaseFiles = TCW.generateTestCases(funcs, []);
             var params = _.map(testCaseFiles[0].testCases, tc => tc.callSequence[0].params);
             assert.equal(1, _.countBy(params, val => val[0] === "null" && val[1] === 0)[true]);
             assert.equal(1, _.countBy(params, val => val[0] === "null" && val[1] === "undefined")[true]);
@@ -29,7 +29,7 @@ describe('TCW simple tests', function() {
 
         it('should return constructor test cases for constructor prototype function calls', function() {
             var funcs = Orchestrator.getFuncsChanged(".", "HEAD", "90be01", "b175b2");
-            var testCaseFiles = TCW.generateTestCases(funcs);
+            var testCaseFiles = TCW.generateTestCases(funcs, []);
             assert.equal(3, testCaseFiles.length);
             assert.equal(3, testCaseFiles[2].testCases.length);
             assert.equal(2, testCaseFiles[2].testCases[1].callSequence.length);
