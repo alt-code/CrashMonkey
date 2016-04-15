@@ -34,6 +34,14 @@ describe("Test Case Analyzer tests", function () {
         assert.equal("string", describeTests.testcases[4].varUses.$.functioncalls[0].arguments[0].inferredType);
         assert.equal("string", describeTests.testcases[4].varUses.$.functioncalls[1].arguments[0].inferredType);
     });
+    
+    it("should get rootVarModules for a test case file", function () {
+        assert.ok(testCase.rootVarsModules);
+        assert.ok(testCase.rootVarsModules.$);
+        assert.ok(testCase.rootVarsModules.fixtures);
+        assert.equal("./tests/index.js", testCase.rootVarsModules.$);
+        assert.equal("./tests/fixtures/fixtures.js", testCase.rootVarsModules.fixtures);
+    });
 });
 
 describe("node-dateformat tests", function () {
