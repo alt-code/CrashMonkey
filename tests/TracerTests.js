@@ -38,7 +38,9 @@ describe("Tracer tests", function () {
     
     it("should run the tracer tests", function (done) {
         Tracer.runTraceTests("./repos/CrashMonkey", "tests\\GitCenterTests.js").then(function (testcases) {
-            console.log(testcases);
+            assert.equal(2, testcases.length);
+            assert.equal('2', testcases[0]);
+            assert.equal('3', testcases[1]);
             done();
         });
     });

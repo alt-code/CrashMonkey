@@ -31,9 +31,9 @@ describe('Git file commit tests', function() {
     it('should throw an error if file doesn\'t exist', function() {
         assert.throws(function() {
             GitCenter.getFileCommit(".", "master", "24c1e5", "tests/fixtures/module-exports.js");
-        });
+        }, Error);
         assert.throws(function() {
-            GitCenter.getFileCommit(".", "master", 1, "tests/fixtures/module-exports2.js");
-        });
+            GitCenter.getFileCommit(".", "master", 1, "tests/fixtures/module-exports3.js");
+        }, Error);
     });
 });
