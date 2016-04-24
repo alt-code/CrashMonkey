@@ -32,6 +32,20 @@ The typical flow for a module is as follows
 ### Findings
 The efforts of the project were more focused on developing a framework and laying a foundation for generation of more intelligent Javascript test cases for a wide variety of projects. This was achieved by combining various test generation strtegies and keeping the architecture test-framework and domain agnostic. Using limited implementations of the various test generation principles, CrashMonkey has shown to produce lesser, more effective test cases for certain libraries. Being desgined to be extensible, CrashMonkey can be improved and refined with ease to add new domain contrainsts and test-frameworks.
 
+### Execution
+
+#### Results
+[node-dateformat]() was chosen as a sample library to be tested on because of the simplistic transformative nature of the library and well-defined testable domain with respect to automation of constrainsts. The project has a reasonable number of callable functions and written test cases that can be compared with for coverage improvement.  
+CrashMonkey was able to analyze the function in question, infer types for parameters and analyze test cases to provide additional intelligence for those types as well test case structure, context and assertions. As seen below, there is an appreciable increase in coverage after running the CrashMonkey suite of test generation techniques on the library.
+
+**Before CrashMonkey**
+![](./Coverage1.png)  
+
+**After CrashMonkey**
+![](./Coverage2.png)
+
+CrashMonkey (CM) was able to locate the function under consideration (affected by the latest commit) using dynamic parsing. CM then performed a static inference of the types of the parameters. Uptill here it knew, that the function accepts a certain number of parameters and the types of the primitive parameters but not the date type parameter. At this point, it went through the test cases using dynamic tracing to isolate the test cases that touch the function under consideration. CM then analyzed these test cases to gain further information of the function calls and can now infer one of paramters is being called with a date type. After this, test case generation proceeded using the date domain for that parameter and the respective primitive types for the other parameters. Tests generateed using this knowledge were found to increase coverage specifically a certain number of branches that were overlooked by developer written test cases.
+
 ### Glossary
 * AST (Abstract Syntax Tree) - A representation of source code in terms of symbols, expressions and tokens that a machine can understand. Typically an AST is an intermediate artifact between source code and compilers
 * Esprima - A library that constructs an AST from given source code
