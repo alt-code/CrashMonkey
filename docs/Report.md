@@ -21,27 +21,27 @@ Typically most test case generation libraries operate by working on the current 
 
 CrashMonkey was designed to be as test framework agnostic as possible to be widely adopted and effective. This is done by having test case formatters and runners that can be plugged in for every test framework. Formatters understand how the test framework test cases are structured (for generation and analysis) and runners know how to run the test cases and report the results. The mocha instances of the same have written along with the project. 
 
-The typical flow for a module is as follows
-1. Code checkin (Developer)
-2. Get code and functions that changed (CrashMonkey)
-3. Infer types using Ternjs (CrashMonkey)
-4. Analyse test cases using Ternjs and dynamic tracing (CrashMonkey)
-5. Generate test cases using results from static and dynamic analysis (CrashMonkey)
+The typical flow for a module is as follows  
+1. Code checkin (Developer)  
+2. Get code and functions that changed (CrashMonkey)  
+3. Infer types using Ternjs (CrashMonkey)  
+4. Analyse test cases using Ternjs and dynamic tracing (CrashMonkey)  
+5. Generate test cases using results from static and dynamic analysis (CrashMonkey)  
 6. Run test cases and act on results (Developer)
+
+### Execution
 
 ### Findings
 The efforts of the project were more focused on developing a framework and laying a foundation for generation of more intelligent Javascript test cases for a wide variety of projects. This was achieved by combining various test generation strtegies and keeping the architecture test-framework and domain agnostic. Using limited implementations of the various test generation principles, CrashMonkey has shown to produce lesser, more effective test cases for certain libraries. Being desgined to be extensible, CrashMonkey can be improved and refined with ease to add new domain contrainsts and test-frameworks.
-
-### Execution
 
 #### Results
 [node-dateformat]() was chosen as a sample library to be tested on because of the simplistic transformative nature of the library and well-defined testable domain with respect to automation of constrainsts. The project has a reasonable number of callable functions and written test cases that can be compared with for coverage improvement.  
 CrashMonkey was able to analyze the function in question, infer types for parameters and analyze test cases to provide additional intelligence for those types as well test case structure, context and assertions. As seen below, there is an appreciable increase in coverage after running the CrashMonkey suite of test generation techniques on the library.
 
-**Before CrashMonkey**
+**Before CrashMonkey**  
 ![](./Coverage1.png)  
 
-**After CrashMonkey**
+**After CrashMonkey**  
 ![](./Coverage2.png)
 
 CrashMonkey (CM) was able to locate the function under consideration (affected by the latest commit) using dynamic parsing. CM then performed a static inference of the types of the parameters. Uptill here it knew, that the function accepts a certain number of parameters and the types of the primitive parameters but not the date type parameter. At this point, it went through the test cases using dynamic tracing to isolate the test cases that touch the function under consideration. CM then analyzed these test cases to gain further information of the function calls and can now infer one of paramters is being called with a date type. After this, test case generation proceeded using the date domain for that parameter and the respective primitive types for the other parameters. Tests generateed using this knowledge were found to increase coverage specifically a certain number of branches that were overlooked by developer written test cases.
