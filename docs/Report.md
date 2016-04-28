@@ -30,6 +30,10 @@ The typical flow for a module is as follows
 6. Run test cases and act on results (Developer)
 
 ### Execution
+Being designed as a framework, CrashMonkey has various modules with callable APIs. The TDD style of development ensures that APIs conform to expected behaviour. The [Orchestrator](../lib/Orchestrator.js) module is the highest level API, tying most of the other modules together. Orchestrator APIs include  
+* getFuncsChanged - Get functions that were affected by the commit
+* generateTestCases - Analyse changed functions and generate test cases
+* executeTestCases - Executes test cases given test files
 
 ### Findings
 The efforts of the project were more focused on developing a framework and laying a foundation for generation of more intelligent Javascript test cases for a wide variety of projects. This was achieved by combining various test generation strtegies and keeping the architecture test-framework and domain agnostic. Using limited implementations of the various test generation principles, CrashMonkey has shown to produce lesser, more effective test cases for certain libraries. Being designed to be extensible, CrashMonkey can be improved and refined with ease to add new domain contrainsts and test-frameworks.
